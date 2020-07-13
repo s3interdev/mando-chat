@@ -21,6 +21,7 @@
 <script>
 import db from "@/firebase/init";
 import NewMessage from "@/components/NewMessage";
+import moment from "moment";
 
 export default {
   name: "Chat",
@@ -34,6 +35,7 @@ export default {
     };
   },
   created() {
+    // Real-time event listener
     let ref = db.collection("messages").orderBy("timestamp");
 
     ref.onSnapshot(snapshot => {
@@ -45,7 +47,7 @@ export default {
             id: doc.id,
             name: doc.data().name,
             content: doc.data().content,
-            timestamp: doc.data().timestamp
+            timestamp: moment(doc.data().timestamp).format("lll")
           });
         }
       });
@@ -66,6 +68,6 @@ export default {
 
 .chat .time {
   display: block;
-  font-size: 1.1em;
+  font-size: 0.8em;
 }
 </style>
